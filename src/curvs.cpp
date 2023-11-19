@@ -1,5 +1,6 @@
 #include <curvs.h>
 #include <iomanip>
+#include <my_functions.h>
 
 const float PI = std::acos(-1.0f);
 
@@ -75,4 +76,36 @@ Vector3D Helixes3D::GetFirstDerivative(float t) const
     first_derivative.z = step_ * (module_t / (2.0f * PI)); // Производная z по t
 
     return first_derivative;
+}
+
+std::unique_ptr<Curv> Curv::GetRandomCurv(float minParam, float maxParam)
+{
+    float radius = MyFunc::GetRandomParam(minParam, maxParam);
+    float secondParam = MyFunc::GetRandomParam(minParam, maxParam);
+    int curvType = MyFunc::GetRandomParam(1, 4);
+    switch (curvType)
+    {
+    case 1:
+        return std::make_unique<Circle>(radius);
+        break;
+    case 2:
+        return std::make_unique<Ellipses>(radius, secondParam);
+        break;
+    case 3:
+        return std::make_unique<Helixes3D>(radius, secondParam);
+        break;
+    }
+    return nullptr;
+}
+
+std::vector<std::unique_ptr<Curv>> Curv::GetVectorOfRandomCurvs(size_t size, float minParam, float maxParam)
+{
+    std::vector<std::unique_ptr<Curv>> curvs{};
+
+    for (size_t i = 0; i < size; i++)
+    {
+        curvs.push_back(Curv::GetRandomCurv(minParam, maxParam));
+    }
+
+    return curvs;
 }
