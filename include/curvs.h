@@ -13,11 +13,20 @@ struct Vector3D;
 class Curv
 {
 public:
+    enum Type
+    {
+        CIRCLE,
+        ELLIPSE,
+        HELIX
+    };
+
     virtual Point3D GetPoint(float t) const = 0;
     virtual Vector3D GetFirstDerivative(float t) const = 0;
-    static std::unique_ptr<Curv> GetRandomCurv(float minParam = 0, float maxParam = 10.0f);
-    static std::vector<std::unique_ptr<Curv>> GetVectorOfRandomCurvs(size_t size = 10, float minParam = 0.0f, float maxParam = 10.0f);
-    virtual void print() = 0;
+    static std::shared_ptr<Curv> GetRandomCurv(float minParam = 0, float maxParam = 10.0f);
+    static std::vector<std::shared_ptr<Curv>> GetVectorOfRandomCurvs(size_t size = 10, float minParam = 0.0f, float maxParam = 10.0f);
+    virtual void print() const = 0;
+    virtual Type GetType() const = 0;
+    virtual float GetRadius() const = 0;
 };
 
 class Circle : public Curv
@@ -25,11 +34,16 @@ class Circle : public Curv
 public:
     Circle(float radius);
     virtual ~Circle(){};
-    virtual void print() override { std::cout << "Circle: radius = " << radius_ << std::endl; }
+    virtual void print() const override { std::cout << "Circle: radius = " << radius_ << std::endl; }
+    bool operator==(const Circle &other) const
+    {
+        return radius_ == other.radius_;
+    }
 
     virtual Point3D GetPoint(float t) const override;
     virtual Vector3D GetFirstDerivative(float t) const override;
-    virtual float GetRadius() const { return radius_; }
+    virtual float GetRadius() const override { return radius_; }
+    virtual Type GetType() const override { return Type::CIRCLE; }
 
 protected:
     float radius_;
@@ -40,12 +54,17 @@ class Ellipses : public Circle
 public:
     Ellipses(float radiusX, float radiusY);
     virtual ~Ellipses() override{};
-    virtual void print() override { std::cout << "Ellipses: radius X = " << radius_ << " radius Y = " << radiusY_ << std::endl; }
+    virtual void print() const override { std::cout << "Ellipses: radius X = " << radius_ << " radius Y = " << radiusY_ << std::endl; }
+    bool operator==(const Ellipses &other) const
+    {
+        return ((radius_ == other.radius_) && (radiusY_ == other.radiusY_));
+    }
 
     virtual Point3D GetPoint(float t) const override;
     virtual Vector3D GetFirstDerivative(float t) const override;
     virtual float GetRadiusX() const { return radius_; }
     virtual float GetRadiusY() const { return radiusY_; }
+    virtual Type GetType() const override { return Type::ELLIPSE; }
 
 protected:
     float radiusY_;
@@ -59,11 +78,16 @@ class Helixes3D : public Circle
 public:
     Helixes3D(float radius, float step);
     virtual ~Helixes3D() override{};
-    virtual void print() override { std::cout << "Helixes3D: radius = " << radius_ << " step = " << step_ << std::endl; }
+    virtual void print() const override { std::cout << "Helixes3D: radius = " << radius_ << " step = " << step_ << std::endl; }
+    bool operator==(const Helixes3D &other) const
+    {
+        return ((radius_ == other.radius_) && (step_ == other.step_));
+    }
 
     virtual Point3D GetPoint(float t) const override;
     virtual Vector3D GetFirstDerivative(float t) const override;
     float GetStep() const { return step_; }
+    virtual Type GetType() const override { return Type::HELIX; }
 
 protected:
     float step_;

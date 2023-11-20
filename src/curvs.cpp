@@ -78,29 +78,29 @@ Vector3D Helixes3D::GetFirstDerivative(float t) const
     return first_derivative;
 }
 
-std::unique_ptr<Curv> Curv::GetRandomCurv(float minParam, float maxParam)
+std::shared_ptr<Curv> Curv::GetRandomCurv(float minParam, float maxParam)
 {
     float radius = MyFunc::GetRandomParam(minParam, maxParam);
     float secondParam = MyFunc::GetRandomParam(minParam, maxParam);
-    int curvType = MyFunc::GetRandomParam(1, 4);
+    int curvType = MyFunc::GetRandomParam(0, 3);
     switch (curvType)
     {
-    case 1:
-        return std::make_unique<Circle>(radius);
+    case Curv::CIRCLE:
+        return std::make_shared<Circle>(radius);
         break;
-    case 2:
-        return std::make_unique<Ellipses>(radius, secondParam);
+    case Curv::ELLIPSE:
+        return std::make_shared<Ellipses>(radius, secondParam);
         break;
-    case 3:
-        return std::make_unique<Helixes3D>(radius, secondParam);
+    case Curv::HELIX:
+        return std::make_shared<Helixes3D>(radius, secondParam);
         break;
     }
     return nullptr;
 }
 
-std::vector<std::unique_ptr<Curv>> Curv::GetVectorOfRandomCurvs(size_t size, float minParam, float maxParam)
+std::vector<std::shared_ptr<Curv>> Curv::GetVectorOfRandomCurvs(size_t size, float minParam, float maxParam)
 {
-    std::vector<std::unique_ptr<Curv>> curvs{};
+    std::vector<std::shared_ptr<Curv>> curvs{};
 
     for (size_t i = 0; i < size; i++)
     {
