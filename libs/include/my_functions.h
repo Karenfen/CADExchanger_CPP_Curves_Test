@@ -1,4 +1,6 @@
 #include <random>
+#include "curvs.h"
+
 
 namespace MyFunc
 {
@@ -11,4 +13,6 @@ namespace MyFunc
 
         return dis(gen);
     }
+
+    void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs);
 }
