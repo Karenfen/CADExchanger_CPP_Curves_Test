@@ -1,6 +1,7 @@
 #include <random>
-#include "curvs.h"
+#include <memory>
 
+class Curv;
 
 namespace MyFunc
 {

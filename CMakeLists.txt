@@ -32,7 +32,7 @@ link_directories(${LIBRARY_DIR})
 add_executable(CADExchanger_CPP_Curves_Test ${SOURCES})
 
 # Добавляем .dll библиотеку к исполняемому файлу
-target_link_libraries(CADExchanger_CPP_Curves_Test PRIVATE ${LIBRARY_DIR}/${DLL_NAME})
+target_link_libraries(CADExchanger_CPP_Curves_Test PRIVATE ${LIBRARY_DIR}/curvslib)
 
 # Установка пути для установки исполняемого файла
 install(TARGETS CADExchanger_CPP_Curves_Test
