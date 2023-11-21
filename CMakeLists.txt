@@ -32,3 +32,9 @@ target_link_libraries(CADExchanger_CPP_Curves_Test PRIVATE tbb)
 install(TARGETS CADExchanger_CPP_Curves_Test
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+# Копирование .dll в папку с исполняемым файлом
+add_custom_command(TARGET CADExchanger_CPP_Curves_Test POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${PROJECT_SOURCE_DIR}/libs/tbb12.dll  # Путь к .dll
+        $<TARGET_FILE_DIR:CADExchanger_CPP_Curves_Test>)
