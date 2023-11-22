@@ -1,5 +1,7 @@
 #pragma once
 
+#include "curvs_global.h"
+
 #include <ostream>
 #include <iostream>
 #include <cmath>

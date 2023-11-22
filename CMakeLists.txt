@@ -19,11 +19,8 @@ file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 # Путь к папке с библиотекой
 set(LIBRARY_DIR ${PROJECT_SOURCE_DIR}/libs)
 
-# Указываем имя .dll файла
-set(DLL_NAME "curvslib.dll")
-
 # Указываем путь к папке с заголовочными файлами
-include_directories(${LIBRARY_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/libs/include)
 
 # Добавление пути к папке с библиотекой для поиска
 link_directories(${LIBRARY_DIR})
@@ -32,15 +29,9 @@ link_directories(${LIBRARY_DIR})
 add_executable(CADExchanger_CPP_Curves_Test ${SOURCES})
 
 # Добавляем .dll библиотеку к исполняемому файлу
-target_link_libraries(CADExchanger_CPP_Curves_Test PRIVATE ${LIBRARY_DIR}/curvslib)
+target_link_libraries(CADExchanger_CPP_Curves_Test PRIVATE ${LIBRARY_DIR}/curvs)
 
 # Установка пути для установки исполняемого файла
 install(TARGETS CADExchanger_CPP_Curves_Test
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
-
-# Копирование .dll в папку с исполняемым файлом
-add_custom_command(TARGET CADExchanger_CPP_Curves_Test POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${LIBRARY_DIR}/curvslib.dll"  # Путь к .dll
-        $<TARGET_FILE_DIR:CADExchanger_CPP_Curves_Test>)

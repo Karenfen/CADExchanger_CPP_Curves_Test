@@ -1,7 +1,7 @@
-#include <random>
-#include <memory>
+#include "curvs_global.h"
 
-class Curv;
+#include <random>
+
 
 namespace MyFunc
 {
@@ -14,6 +14,4 @@ namespace MyFunc
 
         return dis(gen);
     }
-
-    void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs);
 }
