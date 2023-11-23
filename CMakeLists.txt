@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
 # Устанавливаем путь к библиотеке intel TBB
-set(LIB_DIR_TBB C:/libs/oneapi-tbb)
+set(LIB_DIR_TBB ${PROJECT_SOURCE_DIR}/libs/oneapi-tbb)
 
 # Добавление пути к заголовочным файлам (если они есть)
 include_directories(${PROJECT_SOURCE_DIR}/include  ${LIB_DIR_TBB}/include)
@@ -36,5 +36,5 @@ install(TARGETS CADExchanger_CPP_Curves_Test
 # Копирование .dll в папку с исполняемым файлом
 add_custom_command(TARGET CADExchanger_CPP_Curves_Test POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${PROJECT_SOURCE_DIR}/libs/tbb12.dll  # Путь к .dll
+        ${LIB_DIR_TBB}/redist/intel64/vc14/tbb12.dll  # Путь к .dll
         $<TARGET_FILE_DIR:CADExchanger_CPP_Curves_Test>)
