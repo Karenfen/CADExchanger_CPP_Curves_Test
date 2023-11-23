@@ -1,4 +1,7 @@
+#include "curvs_global.h"
+
 #include <random>
+
 
 namespace MyFunc
 {

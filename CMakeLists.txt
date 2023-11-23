@@ -10,15 +10,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Создание папки для исполняемых файлов
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
+# Задаём путь к папке с библиотекой
+set(LIBRARY_DIR ${PROJECT_SOURCE_DIR}/libs)
+
 # Устанавливаем путь к библиотеке intel TBB
 set(LIB_DIR_TBB ${PROJECT_SOURCE_DIR}/libs/oneapi-tbb)
 
-# Добавление пути к заголовочным файлам (если они есть)
-include_directories(${PROJECT_SOURCE_DIR}/include  ${LIB_DIR_TBB}/include)
+# Добавление пути к заголовочным файлам библиотек
+include_directories(${PROJECT_SOURCE_DIR}/libs/include  ${LIB_DIR_TBB}/include)
 
-# Указать путь к папке с библиотекой
-link_directories(${LIB_DIR_TBB}/lib/intel64/vc14)
-
+# Указываем путь к папкам с библиотеками
+link_directories(${LIBRARY_DIR} ${LIB_DIR_TBB}/lib/intel64/vc14)
 
 # Получение списка всех файлов из папки src
 file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
@@ -26,7 +28,8 @@ file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 # Создание исполняемого файла из найденных файлов
 add_executable(CADExchanger_CPP_Curves_Test ${SOURCES})
 
-target_link_libraries(CADExchanger_CPP_Curves_Test PRIVATE tbb)
+# Добавляем иблиотеки к исполняемому файлу
+target_link_libraries(CADExchanger_CPP_Curves_Test PRIVATE ${LIBRARY_DIR}/curvs tbb)
 
 # Установка пути для установки исполняемого файла
 install(TARGETS CADExchanger_CPP_Curves_Test

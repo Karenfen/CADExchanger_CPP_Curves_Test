@@ -1,5 +1,7 @@
 #pragma once
 
+#include "curvs_global.h"
+
 #include <ostream>
 #include <iostream>
 #include <cmath>
@@ -10,7 +12,7 @@ extern const float PI;
 struct Point3D;
 struct Vector3D;
 
-class Curv
+class __declspec(dllexport) Curv
 {
 public:
     enum Type
@@ -29,7 +31,7 @@ public:
     virtual float GetRadius() const = 0;
 };
 
-class Circle : public Curv
+class __declspec(dllexport) Circle : public Curv
 {
 public:
     Circle(float radius);
@@ -49,7 +51,7 @@ protected:
     float radius_;
 };
 
-class Ellipses : public Circle
+class __declspec(dllexport) Ellipses : public Circle
 {
 public:
     Ellipses(float radiusX, float radiusY);
@@ -73,7 +75,7 @@ private:
     virtual float GetRadius() const override { return radius_; }
 };
 
-class Helixes3D : public Circle
+class __declspec(dllexport) Helixes3D : public Circle
 {
 public:
     Helixes3D(float radius, float step);
@@ -93,7 +95,7 @@ protected:
     float step_;
 };
 
-struct Point3D
+struct __declspec(dllexport) Point3D
 {
     float x, y, z;
 
@@ -123,7 +125,7 @@ struct Point3D
     }
 };
 
-struct Vector3D
+struct __declspec(dllexport) Vector3D
 {
     float x, y, z;
 

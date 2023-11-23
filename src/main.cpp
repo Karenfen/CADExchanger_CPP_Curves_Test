@@ -1,16 +1,15 @@
 #include <iostream>
-#include <curvs.h>
 #include <algorithm>
 #include <numeric>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_reduce.h>
+#include "curvs.h"
+#include "my_functions.h"
 
 void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs);
 
 int main()
 {
-    Helixes3D helix(3.0f, 1.0f);
-    std::cout << helix.GetRadius() << std::endl;
     std::vector<std::shared_ptr<Curv>> curvs = Curv::GetVectorOfRandomCurvs();
 
     std::cout << "Curvs:\n"
