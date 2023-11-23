@@ -8,9 +8,55 @@
 
 void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs);
 
-int main()
+int main(int argc, char *argv[])
 {
-    std::vector<std::shared_ptr<Curv>> curvs = Curv::GetVectorOfRandomCurvs();
+    std::vector<std::shared_ptr<Curv>> curvs;
+
+    if (argc == 1)
+    {
+        curvs = Curv::GetVectorOfRandomCurvs();
+    }
+    else if (argc == 2 || argc == 4)
+    {
+        long long size;
+        try
+        {
+            size = std::stoll(argv[1]);
+            if (size < 0)
+            {
+                throw std::exception("<number of curves> - cannot be negative!");
+            }
+            if (argc == 2)
+            {
+                curvs = Curv::GetVectorOfRandomCurvs(static_cast<size_t>(size));
+            }
+            else
+            {
+                float min = std::stof(argv[2]);
+                float max = std::stof(argv[3]);
+
+                curvs = Curv::GetVectorOfRandomCurvs(size, min, max);
+            }
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+            return 1;
+        }
+    }
+    else
+    {
+        std::cout << "Usage: " << std::endl;
+        std::cout << argv[0] << std::endl;
+        std::cout << "Or: " << std::endl;
+        std::cout << argv[0] << " <number of curves>" << std::endl;
+        std::cout << "Or: " << std::endl;
+        std::cout << argv[0] << " <number of curves> <min marameter> <max parameter>" << std::endl;
+        std::cout << "Args: "
+                  << "<number of curves> - positive integer ; <min marameter> <max parameter> - floating point number" << std::endl;
+
+        return 1;
+    }
 
     std::cout << "Curvs:\n"
               << std::endl;
