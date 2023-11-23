@@ -6,6 +6,7 @@
 #include "curvs.h"
 #include "my_functions.h"
 
+void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs, float point);
 void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs);
 
 int main(int argc, char *argv[])
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
     std::cout << "Curvs:\n"
               << std::endl;
 
-    PrintCurvs(curvs);
+    PrintCurvs(curvs, (PI / 4.0f));
 
     std::vector<std::shared_ptr<Curv>> circles{};
 
@@ -108,13 +109,21 @@ int main(int argc, char *argv[])
     return 0;
 }
 
+void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs, float point)
+{
+    for (size_t i = 0; i < curvs.size(); i++)
+    {
+        curvs.at(i)->print();
+        std::cout << "Point for point " << point << " : " << curvs.at(i)->GetPoint(point) << std::endl;
+        std::cout << "First Derivative for point " << point << " : " << curvs.at(i)->GetFirstDerivative(point) << "\n"
+                  << std::endl;
+    }
+}
+
 void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs)
 {
     for (size_t i = 0; i < curvs.size(); i++)
     {
         curvs.at(i)->print();
-        std::cout << "Point for PI: " << curvs.at(i)->GetPoint(PI) << std::endl;
-        std::cout << "First Derivative for PI: " << curvs.at(i)->GetFirstDerivative(PI) << "\n"
-                  << std::endl;
     }
 }
