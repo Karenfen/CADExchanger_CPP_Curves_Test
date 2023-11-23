@@ -2,6 +2,8 @@
 #include <curvs.h>
 #include <algorithm>
 #include <numeric>
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_reduce.h>
 
 void PrintCurvs(std::vector<std::shared_ptr<Curv>> curvs);
 
@@ -40,7 +42,23 @@ int main()
     float sumRadii = std::accumulate(circles.begin(), circles.end(), 0.0f, [](float currentSum, const std::shared_ptr<Curv> &ptr)
                                      { return currentSum + ptr->GetRadius(); });
 
+    float sum = tbb::parallel_reduce(
+        tbb::blocked_range<size_t>(0, circles.size()), 0.0f,
+        [&](const tbb::blocked_range<size_t> &range, float localSum) -> float
+        {
+            for (size_t index = range.begin(); index != range.end(); ++index)
+            {
+                localSum += (circles[index])->GetRadius();
+            }
+            return localSum;
+        },
+        [](float first, float second) -> float
+        {
+            return first + second;
+        });
+
     std::cout << "sum of circle radii: " << sumRadii << std::endl;
+    std::cout << "sum of circle radii (paralel): " << sum << std::endl;
 
     return 0;
 }
